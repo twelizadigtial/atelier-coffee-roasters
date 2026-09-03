@@ -4,11 +4,10 @@ import React, { useRef } from "react";
 import { motion, useScroll, useSpring, useTransform, MotionValue } from "framer-motion";
 
 interface HeroSectionProps {
-  children?: React.ReactNode;
   progress?: MotionValue<number>;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ children, progress }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ progress }) => {
   const localRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: localScroll } = useScroll({
     target: localRef,
@@ -39,7 +38,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ children, progress }) 
     <section
       ref={localRef}
       id="home"
-      className="relative w-full flex flex-col items-center justify-start overflow-visible bg-[#FDFBF7] min-h-[90vh] md:min-h-screen pt-8 md:pt-14 px-4 sm:px-6"
+      className="relative w-full flex flex-col items-center justify-center overflow-visible bg-[#FDFBF7] min-h-[90vh] md:min-h-screen pt-12 md:pt-20 px-4 sm:px-6"
     >
       {/* Background Soft Coffee Radial */}
       <div className="absolute inset-0 z-0 bg-radial from-[#FAF3EA] via-[#FDFBF7] to-[#F5ECE1] opacity-90 pointer-events-none" />
@@ -48,7 +47,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ children, progress }) 
       <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[340px] sm:w-[600px] md:w-[950px] h-[250px] sm:h-[360px] bg-[#C88A58]/20 rounded-full blur-3xl pointer-events-none z-0" />
 
       {/* Foreground Content */}
-      <div className="relative z-[90] w-full flex flex-col items-center pt-4 sm:pt-[8%] lg:pt-[4%] pb-2 mt-[20px] md:mt-0">
+      <div className="relative z-[90] w-full flex flex-col items-center pt-4 sm:pt-[6%] lg:pt-[2%] pb-2 mt-[20px] md:mt-0">
         {/* Mobile Quick Pills */}
         <div className="flex md:hidden items-center justify-between w-full max-w-[340px] px-2 mb-6 pointer-events-auto gap-2">
           <button
@@ -105,11 +104,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ children, progress }) 
             </div>
           </motion.div>
         </motion.div>
-
-        {/* 3D Cup Container Slot */}
-        <div className="w-full flex-1 flex justify-center items-start relative z-10 -mt-[40px] sm:-mt-[60px] md:-mt-[90px] lg:-mt-[110px]">
-          {children}
-        </div>
       </div>
     </section>
   );
