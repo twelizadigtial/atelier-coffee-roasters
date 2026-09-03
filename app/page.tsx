@@ -74,13 +74,12 @@ export default function Home() {
 
   const progress = windowWidth < 1024 ? scrollYProgress : smoothProgress;
 
-  // MULTI-BREAKPOINT RESPONSIVE CUP TRAJECTORY KEYFRAMES
-  // Desktop (w >= 1280), Laptop (1024 <= w < 1280), Tablet (768 <= w < 1024), Mobile (w < 768)
-
+  // BREAKPOINT CATEGORIZATION
   const isMobile = windowWidth < 768;
   const isTablet = windowWidth >= 768 && windowWidth < 1024;
   const isLaptop = windowWidth >= 1024 && windowWidth < 1280;
 
+  // CONTINUOUS 3D CUP MOTION TRAJECTORY (Hero -> Store Info Bar -> Story -> Craft Journey)
   const transformX = useTransform(
     progress,
     [0, 0.28, 0.58, 0.88, 0.98, 1.0],
@@ -126,7 +125,7 @@ export default function Home() {
     [0, -5, isMobile || isTablet ? 0 : 10, 0, 0, 0]
   );
 
-  // Cup remains visible through the END of Craft Journey (0.98), fading out past Craft Journey
+  // Cup remains visible through middle & end of Craft Journey (0.88 - 0.98), fading out past Craft Journey
   const transformOpacity = useTransform(
     progress,
     [0, 0.88, 0.96, 1.0],
@@ -150,7 +149,7 @@ export default function Home() {
       <SVGFilters />
       <Navbar />
 
-      {/* RESPONSIVE COFFEE JOURNEY PARTICLES */}
+      {/* RESPONSIVE COFFEE JOURNEY PARTICLES (WORKING PERFECTLY) */}
       <CoffeeJourneyParticles progress={smoothProgress} windowWidth={windowWidth} />
 
       {/* CONTINUOUS STORYTELLING TRAVELING CUP CONTAINER (Hero through END of Craft Journey) */}
@@ -166,7 +165,7 @@ export default function Home() {
                 scale: transformScale,
                 rotate: transformRotate,
                 opacity: transformOpacity,
-                zIndex: 100,
+                zIndex: 120,
               }}
               className="relative transform-gpu will-change-transform origin-center cursor-pointer pointer-events-auto mt-0"
             >
@@ -188,15 +187,19 @@ export default function Home() {
         </HeroSection>
 
         {/* Stage 2: Store Info Bar */}
-        <div className="relative z-[95]">
+        <div className="relative z-[10]">
           <StoreInfoBar progress={smoothProgress} />
         </div>
 
         {/* Stage 3: Our Story & Why Choose Us */}
-        <AboutStory progress={smoothProgress} />
+        <div className="relative z-[10]">
+          <AboutStory progress={smoothProgress} />
+        </div>
 
         {/* Stage 4: Craft Journey (Brewing & Roasting Experience) */}
-        <BrewingExp progress={smoothProgress} />
+        <div className="relative z-[10]">
+          <BrewingExp progress={smoothProgress} />
+        </div>
       </div>
 
       {/* NORMAL WEBSITE BEHAVIOR AFTER CRAFT JOURNEY */}

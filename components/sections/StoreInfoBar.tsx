@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion, useTransform, useMotionValue, MotionValue } from "framer-motion";
-import { MapPin, Instagram, Clock } from "lucide-react";
+import { MapPin, Clock, ArrowRight } from "lucide-react";
 import { BlobButton } from "@/components/BlobButton";
 
 interface StoreInfoBarProps {
@@ -13,120 +13,109 @@ export const StoreInfoBar: React.FC<StoreInfoBarProps> = ({ progress }) => {
   const fallbackProgress = useMotionValue(0.28);
   const p = progress || fallbackProgress;
 
-  // Cup-First Dual-Wing Portal Split Reactions
-  const leftPanelX = useTransform(p, [0.12, 0.28, 0.44], ["0px", "-65px", "-35px"]);
-  const rightPanelX = useTransform(p, [0.12, 0.28, 0.44], ["0px", "65px", "35px"]);
-  const leftRotate = useTransform(p, [0.12, 0.28, 0.44], [0, -2.5, -1]);
-  const rightRotate = useTransform(p, [0.12, 0.28, 0.44], [0, 2.5, 1]);
-  const centerGapWidth = useTransform(p, [0.12, 0.28, 0.44], ["0px", "160px", "110px"]);
-  const cardScale = useTransform(p, [0.12, 0.28, 0.44], [0.94, 1, 0.96]);
-  const centerPillY = useTransform(p, [0.12, 0.28, 0.44], ["0px", "18px", "10px"]);
+  // Dual-Wing Portal Opening as Cup Arrives in Pedestal
+  const leftWingX = useTransform(p, [0.08, 0.28, 0.48], ["-60px", "0px", "-30px"]);
+  const rightWingX = useTransform(p, [0.08, 0.28, 0.48], ["60px", "0px", "30px"]);
+  const cardScale = useTransform(p, [0.08, 0.28, 0.48], [0.94, 1, 0.96]);
 
-  const scrollToMenu = () => {
-    const el = document.getElementById("menu");
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <div className="relative z-[85] w-full block h-auto -mt-[40px] md:-mt-[120px] lg:-mt-[160px] px-4 md:px-12">
-      <div className="relative w-full max-w-[1280px] mx-auto">
-        {/* Dual-Wing Menu Portal Split Layout */}
+    <section id="info" className="py-12 md:py-20 bg-[#FAF3EA] border-t border-b border-[#FAF3EA] relative z-10 overflow-hidden">
+      <div className="max-w-[1300px] mx-auto px-4 sm:px-8 relative z-10">
+        {/* DUAL-WING EDITORIAL MENU PORTAL FRAMING THE CENTRAL CUP PEDESTAL */}
         <motion.div
           style={{ scale: cardScale }}
-          className="w-full flex flex-col md:flex-row items-center justify-center relative z-10"
+          className="relative w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-center"
         >
-          {/* LEFT WING PANEL (535 Madison Ave Location) */}
+          {/* LEFT WING PANEL */}
           <motion.div
-            style={{ x: leftPanelX, rotate: leftRotate }}
-            className="flex-1 w-full md:w-auto bg-[#1F1512] text-[#FDFBF7] rounded-[20px] md:rounded-l-[32px] md:rounded-r-[10px] p-6 md:py-11 md:px-11 shadow-[0_24px_50px_rgba(0,0,0,0.25)] border border-white/10 relative overflow-hidden transition-all duration-300"
+            style={{ x: leftWingX }}
+            className="lg:col-span-5 bg-white/90 backdrop-blur-md rounded-[28px] p-6 sm:p-8 shadow-xl border border-white flex flex-col justify-between space-y-6"
           >
-            <div className="flex items-center justify-between md:justify-start gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-[#C88A58]/20 flex items-center justify-center flex-shrink-0 border border-[#C88A58]/30">
-                  <MapPin className="w-5 h-5 text-[#C88A58]" />
-                </div>
-                <div>
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-[#C88A58] font-bold block">
-                    Sanctuary Location
-                  </span>
-                  <span className="font-serif text-sm md:text-lg text-white font-semibold block mt-0.5">
-                    535 Madison Ave, New York, NY
-                  </span>
-                </div>
-              </div>
-
-              <div className="hidden lg:block text-right">
-                <span className="text-[10px] uppercase tracking-widest text-white/50 block">
-                  Provenence
-                </span>
-                <span className="text-xs text-white/80 font-light">Midtown Manhattan</span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* DYNAMIC CENTER PEDESTAL GAP FOR 3D CUP LANDING */}
-          <motion.div
-            style={{ width: centerGapWidth }}
-            className="hidden md:flex flex-shrink-0 items-center justify-center relative h-32 pointer-events-none transition-all"
-          >
-            <div className="w-full h-full rounded-full border border-dashed border-[#C88A58]/40 flex flex-col items-center justify-center bg-black/15 shadow-inner px-2">
-              <span className="text-[9px] uppercase font-extrabold tracking-[0.25em] text-[#C88A58]/90 text-center">
-                Aurel Pedestal
+            <div>
+              <span className="inline-block bg-[#C88A58]/20 text-[#C88A58] text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] px-3.5 py-1 rounded-full mb-3">
+                Storefront & Atelier
               </span>
+              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#1F1512] leading-tight">
+                Explore Full Coffee & Pastry Menu
+              </h3>
+              <p className="text-xs sm:text-sm text-[#1F1512]/75 font-light leading-relaxed mt-2">
+                Discover our seasonal micro-lot pour-overs, house espresso blends, artisanal croissants, and desserts.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+              <BlobButton
+                variant="black"
+                href="#menu"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("menu");
+                }}
+                className="px-6 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2"
+              >
+                <span>View Full Menu</span>
+                <ArrowRight className="w-4 h-4" />
+              </BlobButton>
+
+              <div className="flex items-center space-x-2 text-xs text-[#1F1512]/80 font-medium px-2">
+                <Clock className="w-4 h-4 text-[#C88A58] flex-shrink-0" />
+                <span>Open 7 AM - 7 PM Daily</span>
+              </div>
             </div>
           </motion.div>
 
-          {/* RIGHT WING PANEL (Operating Hours & Instagram) */}
-          <motion.div
-            style={{ x: rightPanelX, rotate: rightRotate }}
-            className="flex-1 w-full md:w-auto bg-[#1F1512] text-[#FDFBF7] rounded-[20px] md:rounded-r-[32px] md:rounded-l-[10px] p-6 md:py-11 md:px-11 shadow-[0_24px_50px_rgba(0,0,0,0.25)] border border-white/10 relative overflow-hidden transition-all duration-300 mt-3 md:mt-0"
-          >
-            <div className="flex items-center justify-between md:justify-end gap-4">
-              <div className="hidden lg:block text-left">
-                <span className="text-[10px] uppercase tracking-widest text-white/50 block">
-                  Social Channel
+          {/* CENTRAL CUP PEDESTAL GAP FRAME */}
+          <div className="lg:col-span-2 flex flex-col items-center justify-center relative min-h-[140px] lg:min-h-[220px] pointer-events-none">
+            <div className="w-[180px] sm:w-[220px] h-[180px] sm:h-[220px] rounded-full border-2 border-dashed border-[#C88A58]/40 flex items-center justify-center bg-white/40 shadow-inner relative">
+              <div className="w-[140px] sm:w-[170px] h-[140px] sm:h-[170px] rounded-full border border-[#C88A58]/30 bg-[#C88A58]/5 flex flex-col items-center justify-end pb-4">
+                <span className="text-[9px] uppercase font-extrabold tracking-[0.2em] text-[#C88A58]">
+                  Pedestal Spot
                 </span>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-xs text-[#C88A58] underline font-light"
-                >
-                  @aurel.coffeeroasters
-                </a>
-              </div>
-
-              <div className="flex items-center gap-3 text-right">
-                <div>
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-[#C88A58] font-bold block">
-                    Roastery Hours
-                  </span>
-                  <span className="font-serif text-sm md:text-lg text-white font-semibold block mt-0.5">
-                    7 AM - 7 PM | Open 7 Days A Week
-                  </span>
-                </div>
-                <div className="w-11 h-11 rounded-full bg-[#C88A58]/20 flex items-center justify-center flex-shrink-0 border border-[#C88A58]/30">
-                  <Clock className="w-5 h-5 text-[#C88A58]" />
-                </div>
               </div>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
 
-        {/* CENTER FLOATING "EXPLORE FULL COFFEE MENU" CTA BUTTON */}
-        <motion.div
-          style={{ y: centerPillY }}
-          className="relative z-30 flex justify-center -mt-4 md:-mt-6 pointer-events-auto"
-        >
-          <BlobButton
-            variant="blue"
-            onClick={scrollToMenu}
-            className="text-[11px] md:text-xs font-bold tracking-widest px-8 md:px-12 py-3.5 md:py-4 rounded-full uppercase shadow-[0_12px_32px_rgba(200,138,88,0.35)] border border-white/20"
+          {/* RIGHT WING PANEL */}
+          <motion.div
+            style={{ x: rightWingX }}
+            className="lg:col-span-5 bg-white/90 backdrop-blur-md rounded-[28px] p-6 sm:p-8 shadow-xl border border-white flex flex-col justify-between space-y-6"
           >
-            Explore Full Coffee Menu
-          </BlobButton>
+            <div>
+              <span className="inline-block bg-[#1F1512] text-white text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] px-3.5 py-1 rounded-full mb-3">
+                Manhattan Sanctuary
+              </span>
+              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#1F1512] leading-tight">
+                Christie’s Sculpture Garden
+              </h3>
+              <p className="text-xs sm:text-sm text-[#1F1512]/75 font-light leading-relaxed mt-2">
+                535 Madison Avenue, Midtown Manhattan, NYC 10022. Experience peaceful coffee seating surrounded by fine art.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2 border-t border-[#1F1512]/10">
+              <div className="flex items-center space-x-2 text-xs text-[#1F1512]/80 font-medium">
+                <MapPin className="w-4 h-4 text-[#C88A58] flex-shrink-0" />
+                <span>535 Madison Ave, NYC</span>
+              </div>
+
+              <a
+                href="https://maps.app.goo.gl/o2UTj51fRAp8BrpT8?g_st=ac"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-bold text-[#C88A58] uppercase tracking-wider hover:underline flex items-center space-x-1"
+              >
+                <span>Directions</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
