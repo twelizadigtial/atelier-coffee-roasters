@@ -67,14 +67,16 @@ export default function Home() {
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 300,
-    damping: 35,
+    stiffness: 320,
+    damping: 36,
     restDelta: 0.0001,
   });
 
   const progress = windowWidth < 1024 ? scrollYProgress : smoothProgress;
 
-  // MULTI-BREAKPOINT RESPONSIVE CUP TRAJECTORY KEYFRAMES (STICKY VIEWPORT LANDING)
+  // MULTI-BREAKPOINT RESPONSIVE CUP TRAJECTORY KEYFRAMES
+  // Desktop (w >= 1280), Laptop (1024 <= w < 1280), Tablet (768 <= w < 1024), Mobile (w < 768)
+
   const isMobile = windowWidth < 768;
   const isTablet = windowWidth >= 768 && windowWidth < 1024;
   const isLaptop = windowWidth >= 1024 && windowWidth < 1280;
@@ -85,7 +87,7 @@ export default function Home() {
     [
       "0px",
       "0px",
-      isMobile || isTablet ? "0px" : isLaptop ? "220px" : "290px",
+      isMobile || isTablet ? "0px" : isLaptop ? "220px" : "300px",
       "0px",
       "0px",
       "0px",
@@ -96,12 +98,12 @@ export default function Home() {
     progress,
     [0, 0.28, 0.58, 0.88, 0.98, 1.0],
     [
-      isMobile ? "-10px" : "0px",
-      isMobile ? "10px" : "0px",
-      isMobile ? "0px" : "0px",
-      isMobile ? "0px" : "0px",
-      isMobile ? "20px" : "30px",
-      isMobile ? "60px" : "80px",
+      isMobile ? "-15px" : isTablet ? "-10px" : "0px",
+      isMobile ? "380px" : isTablet ? "430px" : isLaptop ? "460px" : "480px",
+      isMobile ? "940px" : isTablet ? "1060px" : isLaptop ? "1120px" : "1180px",
+      isMobile ? "1680px" : isTablet ? "1850px" : isLaptop ? "1980px" : "2080px",
+      isMobile ? "1740px" : isTablet ? "1910px" : isLaptop ? "2040px" : "2140px",
+      isMobile ? "1860px" : isTablet ? "2030px" : isLaptop ? "2180px" : "2300px",
     ]
   );
 
@@ -109,11 +111,11 @@ export default function Home() {
     progress,
     [0, 0.28, 0.58, 0.88, 0.98, 1.0],
     [
-      isMobile ? 0.72 : isTablet ? 0.82 : isLaptop ? 0.92 : 1.0,
-      isMobile ? 0.56 : isTablet ? 0.66 : 0.76,
-      isMobile ? 0.58 : isTablet ? 0.70 : 0.80,
-      isMobile ? 0.55 : isTablet ? 0.66 : 0.76,
-      isMobile ? 0.55 : isTablet ? 0.66 : 0.76,
+      isMobile ? 0.75 : isTablet ? 0.88 : 1.0,
+      isMobile ? 0.58 : isTablet ? 0.68 : 0.78,
+      isMobile ? 0.60 : isTablet ? 0.72 : 0.82,
+      isMobile ? 0.55 : isTablet ? 0.66 : 0.78,
+      isMobile ? 0.55 : isTablet ? 0.66 : 0.78,
       0.0,
     ]
   );
@@ -121,10 +123,10 @@ export default function Home() {
   const transformRotate = useTransform(
     progress,
     [0, 0.28, 0.58, 0.88, 0.98, 1.0],
-    [0, -4, isMobile || isTablet ? 0 : 8, 0, 0, 0]
+    [0, -5, isMobile || isTablet ? 0 : 10, 0, 0, 0]
   );
 
-  // Cup remains 100% visible through the END of Craft Journey (0.98), fading out past Craft Journey
+  // Cup remains visible through the END of Craft Journey (0.98), fading out past Craft Journey
   const transformOpacity = useTransform(
     progress,
     [0, 0.88, 0.96, 1.0],
@@ -136,7 +138,7 @@ export default function Home() {
     [0, 0.28, 0.58, 0.88, 1.0],
     [
       "drop-shadow(0px 25px 35px rgba(0,0,0,0.06))",
-      "drop-shadow(0px 30px 20px rgba(0,0,0,0.35))",
+      "drop-shadow(0px 30px 20px rgba(0,0,0,0.4))",
       "drop-shadow(0px 35px 25px rgba(0,0,0,0.22))",
       "drop-shadow(0px 30px 25px rgba(0,0,0,0.38))",
       "drop-shadow(0px 0px 0px rgba(0,0,0,0))",
@@ -153,36 +155,37 @@ export default function Home() {
 
       {/* CONTINUOUS STORYTELLING TRAVELING CUP CONTAINER (Hero through END of Craft Journey) */}
       <div ref={travelRef} className="relative w-full overflow-visible">
-        {/* STICKY VIEWPORT PINNED 3D CUP CONTAINER */}
-        <div className="sticky top-0 h-screen w-full pointer-events-none z-[100] flex justify-center items-center overflow-visible -mb-[100vh]">
-          <motion.div
-            style={{
-              x: transformX,
-              y: transformY,
-              scale: transformScale,
-              rotate: transformRotate,
-              opacity: transformOpacity,
-            }}
-            className="relative transform-gpu will-change-transform origin-center pointer-events-auto"
-          >
-            <motion.img
-              src="/assets/custom_cup.png"
-              className="h-[280px] sm:h-[360px] md:h-[440px] lg:h-[540px] xl:h-[600px] w-auto object-contain"
-              alt="Atelier Coffee Cup"
-              style={{
-                filter:
-                  windowWidth < 1024
-                    ? "drop-shadow(0px 20px 30px rgba(0,0,0,0.18))"
-                    : transformShadow,
-              }}
-              whileHover={windowWidth < 1024 ? undefined : { scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            />
-          </motion.div>
-        </div>
-
         {/* Stage 1: Hero Section */}
-        <HeroSection progress={smoothProgress} />
+        <HeroSection progress={smoothProgress}>
+          {/* Continuous Traveling 3D Coffee Cup Object */}
+          <div className="w-full flex justify-center">
+            <motion.div
+              style={{
+                x: transformX,
+                y: transformY,
+                scale: transformScale,
+                rotate: transformRotate,
+                opacity: transformOpacity,
+                zIndex: 100,
+              }}
+              className="relative transform-gpu will-change-transform origin-center cursor-pointer pointer-events-auto mt-0"
+            >
+              <motion.img
+                src="/assets/custom_cup.png"
+                className="h-[320px] sm:h-[400px] md:h-[480px] lg:h-[580px] xl:h-[630px] w-auto object-contain will-change-transform"
+                alt="Atelier Coffee Cup"
+                style={{
+                  filter:
+                    windowWidth < 1024
+                      ? "drop-shadow(0px 20px 30px rgba(0,0,0,0.18))"
+                      : transformShadow,
+                }}
+                whileHover={windowWidth < 1024 ? undefined : { scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              />
+            </motion.div>
+          </div>
+        </HeroSection>
 
         {/* Stage 2: Store Info Bar */}
         <div className="relative z-[95]">
